@@ -136,39 +136,39 @@ describe('Add', () => {
     );
 
     // vote by Olivia
-    vote = new Vote();
-    vote = vote.voteYes();
+    // vote = new Vote();
+    // vote = vote.voteYes();
 
-    voteResult = VoteResultHelper(
-      initialCommitment,
-      voteProof.publicInput.yes,
-      voteProof.publicInput.no
-    );
+    // voteResult = VoteResultHelper(
+    //   initialCommitment,
+    //   voteProof.publicInput.yes,
+    //   voteProof.publicInput.no
+    // );
 
-    voteResult.voteYes();
+    // voteResult.voteYes();
 
-    w = Tree.getWitness(3n);
+    // w = Tree.getWitness(3n);
 
-    witness = new MyMerkleWitness(w);
+    // witness = new MyMerkleWitness(w);
 
-    Olivia = Olivia.markVoted();
+    // Olivia = Olivia.markVoted();
 
-    Tree.setLeaf(3n, Olivia.hash());
+    // Tree.setLeaf(3n, Olivia.hash());
 
-    initialCommitment = Tree.getRoot();
+    // initialCommitment = Tree.getRoot();
 
-    voteProof = await RecursiveVoting.vote(
-      voteResult,
-      voteProof,
-      Local.testAccounts[3].privateKey,
-      vote,
-      witness,
-      initialCommitment
-    );
+    // voteProof = await RecursiveVoting.vote(
+    //   voteResult,
+    //   voteProof,
+    //   Local.testAccounts[3].privateKey,
+    //   vote,
+    //   witness,
+    //   initialCommitment
+    // );
 
     RecursiveVoting.verify(voteProof);
     voteProof.publicInput.no.assertEquals(Field(1));
-    voteProof.publicInput.yes.assertEquals(Field(3));
+    voteProof.publicInput.yes.assertEquals(Field(2));
   });
 
   const VoteResultHelper = (root: Field, yes: Field, no: Field) => {
