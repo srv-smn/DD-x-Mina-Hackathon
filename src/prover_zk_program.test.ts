@@ -1,4 +1,4 @@
-import { Field, MerkleTree, Mina, PrivateKey } from 'snarkyjs';
+import { Field, MerkleTree, Mina, PrivateKey, shutdown } from 'snarkyjs';
 
 import { MyMerkleWitness, RecursiveVoting } from './prover_zk_program.js';
 import { VoteResult } from './vote_result.js';
@@ -7,6 +7,10 @@ import { Voter } from './voters_info.js';
 import { Attestation, VotingProof } from './voting_zk_app.js';
 
 describe('Add', () => {
+  afterAll(() => {
+    setTimeout(shutdown, 0);
+  });
+
   it('Test ZK Program', async () => {
     let doProofs = true;
     type Names = 'Bob' | 'Alice' | 'Charlie' | 'Olivia';
