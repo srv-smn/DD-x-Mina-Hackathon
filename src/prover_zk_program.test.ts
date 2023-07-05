@@ -36,10 +36,10 @@ describe('Add', () => {
     let initialCommitment = Tree.getRoot();
 
     let AttestationZkApp = new Attestation(zkappAddress);
-    if (doProofs) {
-      await RecursiveVoting.compile();
-      await Attestation.compile();
-    }
+    // if (doProofs) {
+    await RecursiveVoting.compile();
+    //   await Attestation.compile();
+    // }
 
     // init
     const initVoteResult = new VoteResult(initialCommitment);
