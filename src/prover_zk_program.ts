@@ -4,6 +4,7 @@ import {
   SelfProof,
   PrivateKey,
   MerkleWitness,
+  Provable,
 } from 'snarkyjs';
 
 import { Voter } from './voters_info.js';
@@ -61,15 +62,29 @@ const RecursiveVoting = Experimental.ZkProgram({
         // check if vote object is correct or not
         vote.validate().assertTrue;
 
-        if (vote.yes) {
-          previousProof.publicInput.no.assertEquals(publicInput.no);
-          let previousProofYes = previousProof.publicInput.yes.add(1);
-          previousProofYes.assertEquals(publicInput.yes);
-        } else {
-          previousProof.publicInput.yes.assertEquals(publicInput.yes);
-          let previousProofNo = previousProof.publicInput.no.add(1);
-          previousProofNo.assertEquals(publicInput.no);
-        }
+        let v1 = Provable.if(
+          vote.yes,
+          previousProof.publicInput.no,
+          previousProof.publicInput.yes
+        );
+        let v2 = Provable.if(vote.yes, publicInput.no, publicInput.yes);
+        v1.assertEquals(v2);
+
+        v1 = Provable.if(
+          vote.yes,
+          previousProof.publicInput.yes.add(1),
+          previousProof.publicInput.no.add(1)
+        );
+        v2 = Provable.if(vote.yes, publicInput.yes, publicInput.no);
+        v1.assertEquals(v2);
+
+        // if (vote.yes) {
+        //   previousProof.publicInput.no.assertEquals(publicInput.no);
+        //   previousProof.publicInput.yes.add(1).assertEquals(publicInput.yes);
+        // } else {
+        //   previousProof.publicInput.yes.assertEquals(publicInput.yes);
+        //   previousProof.publicInput.no.add(1).assertEquals(publicInput.no);
+        // }
       },
     },
   },
